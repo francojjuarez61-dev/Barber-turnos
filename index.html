@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Turnos Barbería</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app" class="app">
+    <header class="topbar">
+      <div>
+        <div class="title">Turnos</div>
+        <div id="shiftInfo" class="subtitle">—</div>
+      </div>
+      <div class="right">
+        <button id="resetBtn" class="ghost" title="Reiniciar día">Reiniciar</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="panel">
+        <div class="panelHead">
+          <div>
+            <div class="panelTitle">Estado</div>
+            <div id="statusLine" class="panelSub">—</div>
+          </div>
+          <div class="chipRow">
+            <div id="chipColor" class="chip">—</div>
+          </div>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="k">Ahora</div>
+            <div id="nowTime" class="v">--:--</div>
+          </div>
+          <div class="metric">
+            <div class="k">Proyección fin</div>
+            <div id="projEnd" class="v">--:--</div>
+          </div>
+          <div class="metric">
+            <div class="k">Límite</div>
+            <div id="shiftEnd" class="v">--:--</div>
+          </div>
+        </div>
+
+        <div class="actionsRow">
+          <button id="finishBtn" class="btn secondary" disabled>Finalizar actual</button>
+          <button id="addClientBtn" class="btn tertiary">Agregar a espera</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panelHead">
+          <div>
+            <div class="panelTitle">En curso</div>
+            <div class="panelSub">Manual: vos iniciás y vos finalizás.</div>
+          </div>
+        </div>
+
+        <div id="activeCard" class="activeCard empty">
+          <div class="muted">Sin servicio en curso.</div>
+        </div>
+
+        <div class="split">
+          <div>
+            <div class="panelTitle small">Paralelos (Color/Permanente)</div>
+            <div id="bgList" class="list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panelHead">
+          <div>
+            <div class="panelTitle">Lista de espera</div>
+            <div id="queueSub" class="panelSub">0 en espera</div>
+          </div>
+        </div>
+        <div id="queueList" class="list"></div>
+      </section>
+    </main>
+
+    <!-- FAB central -->
+    <button id="fab" class="fab" aria-label="Iniciar servicio">
+      <span class="fabLabel">Iniciar</span>
+      <span class="fabHint">toque</span>
+    </button>
+
+    <!-- Menú radial -->
+    <div id="radialOverlay" class="overlay" hidden>
+      <div class="overlayBg"></div>
+      <div class="radialWrap" role="dialog" aria-modal="true" aria-label="Seleccionar servicio">
+        <div class="radialTitle">Elegí velocidad y servicio</div>
+
+        <div class="speedRow" role="group" aria-label="Velocidad">
+          <button class="speed" data-speed="rapido">Rápido</button>
+          <button class="speed selected" data-speed="normal">Normal</button>
+          <button class="speed" data-speed="lento">Lento</button>
+        </div>
+
+        <div class="radial">
+          <button class="petal" data-service="corte" style="--i:0">Corte</button>
+          <button class="petal" data-service="corte_barba" style="--i:1">Corte + Barba</button>
+          <button class="petal" data-service="corte_sellado" style="--i:2">Corte + Sellado</button>
+          <button class="petal" data-service="color" style="--i:3">Color</button>
+          <button class="petal" data-service="permanente" style="--i:4">Permanente</button>
+
+          <button id="radialClose" class="center" aria-label="Cerrar">✕</button>
+        </div>
+
+        <div class="radialFoot">
+          <div class="muted">
+            Nota: Color y Permanente corren en paralelo. Se finalizan manualmente.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast" hidden></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
